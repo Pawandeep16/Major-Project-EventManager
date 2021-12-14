@@ -1,6 +1,6 @@
 import axios from '../../Axios/axios';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Loading from '../../../Helper/Loading';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
@@ -21,15 +21,13 @@ export default class Home extends Component {
     }
     this.getNotice()
   }
-  componentDidMount() 
-  {
+  componentDidMount() {
     this.intervalID = setInterval(
-      () =>this.tick(),
+      () => this.tick(),
       1000
     );
   }
-  componentWillUnmount() 
-  {
+  componentWillUnmount() {
     clearInterval(this.intervalID);
   }
   tick() {
@@ -43,17 +41,14 @@ export default class Home extends Component {
     {
       posted_on: this.currentDate
     }
-    console.log(this.currentDate)
     await axios.post('/notice/getNotice', body)
       .then((res) => {
-        if (res.data.status) 
-        {
-          this.data=res.data.data
+        if (res.data.status) {
+          this.data = res.data.data
           this.setState({ isLoading: false })
         }
-        else 
-        {
-          // this.setState({ isLoading: false })
+        else {
+          this.setState({ isLoading: false })
         }
       })
       .catch((err) => console.log(err))
@@ -66,10 +61,10 @@ export default class Home extends Component {
     axios.post('/timetable/getList', data)
       .then((res) => {
         if (res.data.status) {
-          this.setState({ curLec: res.data.data.subject ,isLoading:false})
+          this.setState({ curLec: res.data.data.subject, isLoading: false })
         }
         else {
-          this.setState({ curLec: res.data.message ,isLoading: false})
+          this.setState({ curLec: res.data.message, isLoading: false })
         }
       })
       .catch((err) => console.log({ err }))
@@ -83,7 +78,7 @@ export default class Home extends Component {
             <View style={styles.topsec}>
               <Text>{this.state.curDate}</Text>
               <Text>Time:-{this.state.curTime}</Text>
-              <Text>Current Lecture{this.state.curLec}</Text>
+              <Text>Current Lecture:{this.state.curLec}</Text>
             </View>
 
             <View style={{ marginTop: 40 }}>
@@ -97,34 +92,27 @@ export default class Home extends Component {
             </View>
 
             <View style={styles.topsec}>
-            <ScrollView>
-              {this.data.length != 0 ?
-                this.data.map((item) =>
-               
-                  <Card key={item.id} style={styles.card}>
-                    
-                   
-                      <Card.Title style={styles.header} title={item.posted_by}/>
-                 
-                    
-                     
-                      <Card.Content > 
-                      <Title>Description</Title>
-      <Paragraph>{item.detail}</Paragraph>
+              <ScrollView>
+                {this.data.length != 0 ?
+                  this.data.map((item) =>
+
+                    <Card key={item.id} style={styles.card}>
+                      <Card.Title title={item.posted_by} />
+                      <Card.Content >
+                        <Title>Description</Title>
+                        <Paragraph>{item.detail}</Paragraph>
                       </Card.Content>
-                   
-                    <View style={styles.noticecont}>
-                      <Text style={styles.header}>Date:{item.posted_on}</Text>
-                    </View>
-                  </Card>
-                 
-                )
-                :
-                <Text style={{ fontSize: 18 }}>{this.notfound}</Text>
-              }
+                      <View >
+                        <Text >Date:{item.posted_on}</Text>
+                      </View>
+                    </Card>
+                  )
+                  :
+                  <Text style={{ fontSize: 18 }}>{this.notfound}</Text>
+                }
               </ScrollView>
             </View>
-           
+
           </>
         }
       </View>
@@ -157,14 +145,28 @@ const styles = StyleSheet.create({
     color: '#2B8BEB',
   },
   bottomcont: {
-    
-    padding:20,
+
+    padding: 20,
     justifyContent: 'center',
     alignItems: "flex-start",
   },
-card:{
-  width:"80",
-  justifyContent: 'center',
-  alignItems: "center",
-}
+  card: {
+    width: "80%",
+    justifyContent: 'center',
+    alignItems: "center",
+  }
 });
+// import React, { Component } from 'react'
+// import { Text, StyleSheet, View } from 'react-native'
+
+// export default class Home extends Component {
+//   render() {
+//     return (
+//       <View>
+//         <Text> HomePAge </Text>
+//       </View>
+//     )
+//   }
+// }
+
+// const styles = StyleSheet.create({})

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import DrawerContent from './DrawerContent';
 import Home from '../screens/DrawerScreens/Home';
 import Stime from './DrawerScreens/Stime';
@@ -12,7 +11,7 @@ const Drawer = createDrawerNavigator();
 export default function WelcomeScreen(props) {
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="Events"
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={Home}  />
       <Drawer.Screen name="TimeTable" component={Stime} />

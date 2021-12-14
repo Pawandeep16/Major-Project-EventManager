@@ -3,6 +3,7 @@ import React, { Component, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../Helper/Colors';
 import days from "../../../Helper/Days";
+import Table from '../../Table';
 
 const date = new Date()
 export default class Stime extends Component {
@@ -23,7 +24,8 @@ export default class Stime extends Component {
       day: this.state.day
     }
     axios.post('/timetable/getList', data)
-      .then((res) => {
+      .then((res) => 
+      {
         // console.log(res.data)
       })
       .catch((err) => console.log(err))
@@ -31,7 +33,8 @@ export default class Stime extends Component {
   toggle=(flag) => {
     this.setState({day:flag})
   }
-  render() {
+  render() 
+  {
     return (
       <View style={styles.container}>
         <View style={styles.tabView}>
