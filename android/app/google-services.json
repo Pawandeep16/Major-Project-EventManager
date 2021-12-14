@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "176390003703",
+    "project_id": "event-notifi",
+    "storage_bucket": "event-notifi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176390003703:android:4bd1b575314a50564facf2",
+        "android_client_info": {
+          "package_name": "com.mytestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176390003703-n81i1v9ggatn93ekhq1vbvvf6abrqmoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1GQN9HbZptf6VgAsfbQzk9PQG60S7yWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176390003703-n81i1v9ggatn93ekhq1vbvvf6abrqmoj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
