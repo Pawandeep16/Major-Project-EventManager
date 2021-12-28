@@ -1,8 +1,10 @@
 import axios from './Axios/axios'
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, View} from 'react-native'
 import ListEvents from './ListEvents'
 import Loading from '../Helper/Loading'
+import { Colors } from '../Helper/Colors'
+import { ActivityIndicator } from 'react-native-paper';
 
 export default class AllEvents extends Component {
     data = []
@@ -16,7 +18,8 @@ export default class AllEvents extends Component {
     getData = async () => {
         await axios.get('/event/getEvents')
             .then((res) => {
-                if (res.data.status) {
+                if (res.data.status) 
+                {
                     this.data = res.data
                     this.setState({ isLoading: false })
                 }
@@ -32,7 +35,7 @@ export default class AllEvents extends Component {
         return (
             <View style={styles.cont}>
                 {this.state.isLoading ?
-                        <Loading/>
+                    <ActivityIndicator animating={true} color={Colors.btn} />
                     : <ListEvents data={this.data.data} page="All" />
                 }
             </View>

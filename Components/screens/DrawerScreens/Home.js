@@ -9,7 +9,8 @@ export default class Home extends Component {
   currentDate = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString()
   notfound = 'No Notice Found'
   data = []
-  constructor(props) {
+  constructor(props) 
+  {
     super(props);
     this.state =
     {
@@ -17,9 +18,27 @@ export default class Home extends Component {
       id: '',
       curTime: '',
       curDate: '',
-      curLec: 'No Lecture'
+      curLec: 'No Lecture',
+      venue:''
     }
     this.getNotice()
+  }
+  getNotification=()=> 
+  {
+    if(this.state.curTime==='14:40:00')
+    {
+      let data={
+        time:this.state.curTime,
+        day:date.getDay()
+      }
+      axios.post('/timetable/notify',data)
+      .then((e)=>{ 
+        console.log(e.data.data)
+      })
+    }
+  }
+  componentDidUpdate(){
+    this.getNotification()
   }
   componentDidMount() {
     this.intervalID = setInterval(
@@ -35,6 +54,7 @@ export default class Home extends Component {
       curDate: new Date().toDateString(),
       curTime: new Date().toLocaleTimeString()
     })
+    this.getLec()
   }
   getNotice = async () => {
     let body =
@@ -56,15 +76,16 @@ export default class Home extends Component {
   getLec = async () => {
     let data =
     {
-      time: this.state.curTime
+      time: this.state.curTime,
+      day:date.getDay()
     }
-    axios.post('/timetable/getList', data)
+    axios.post('/timetable/getlec', data)
       .then((res) => {
         if (res.data.status) {
-          this.setState({ curLec: res.data.data.subject, isLoading: false })
+          this.setState({ curLec: res.data.list.subject,venue:res.data.list.venue, isLoading: false })
         }
         else {
-          this.setState({ curLec: res.data.message, isLoading: false })
+          this.setState({ curLec: res.data.message,venue:res.data.message, isLoading: false })
         }
       })
       .catch((err) => console.log({ err }))
@@ -78,7 +99,8 @@ export default class Home extends Component {
             <View style={styles.topsec}>
               <Text>{this.state.curDate}</Text>
               <Text>Time:-{this.state.curTime}</Text>
-              <Text>Current Lecture:{this.state.curLec}</Text>
+              <Text>{this.state.curLec}</Text>
+              <Text>{this.state.venue}</Text>
             </View>
 
             <View style={{ marginTop: 40 }}>

@@ -6,18 +6,20 @@ import Stime from './DrawerScreens/Stime';
 import Events from './DrawerScreens/Events';
 import AddEvents from './AddEvents';
 import AddNotice from './DrawerScreens/AddNotice';
+import ChatScreen from './DrawerScreens/ChatScreen';
 const Drawer = createDrawerNavigator();
 
 export default function WelcomeScreen(props) {
   return (
     <Drawer.Navigator
-      initialRouteName="Events"
+      initialRouteName="Message"
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={Home}  />
       <Drawer.Screen name="TimeTable" component={Stime} />
       <Drawer.Screen name="Events" component={Events} />
       <Drawer.Screen name="AddEvent" component={AddEvents} />
       <Drawer.Screen name="Notice" component={AddNotice} />
+      <Drawer.Screen name="Message" component={ChatScreen} />
     </Drawer.Navigator>
   );
 }

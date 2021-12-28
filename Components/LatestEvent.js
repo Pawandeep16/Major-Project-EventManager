@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { ScrollView } from 'react-native';
-import { Text, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, View} from 'react-native'
+import { ActivityIndicator } from 'react-native-paper';
+import { Colors } from '../Helper/Colors';
 import Loading from '../Helper/Loading';
 import axios from './Axios/axios';
 import ListEvents from './ListEvents';
@@ -8,26 +9,17 @@ export default class LatestEvent extends Component {
     data = []
     constructor(props) {
         super(props)
-        this.state = {
-            isLoading: true
-        }
         this.getData()
+        this.state={
+            data:[],
+        }
     }
-    componentDidMount() {
-        this.intervalID = setInterval(
-          () =>this.getData(),
-          1000
-        );
-      }
-      componentWillUnmount() {
-        clearInterval(this.intervalID);
-      }
     getData = async () => {
         await axios.get('/event/latestEvent')
             .then((res) => {
-                if (res.data.status) {
-                    this.data = res.data
-                    this.setState({ isLoading: false })
+                if (res.data.status) 
+                {
+                    this.setState({data:[res.data.data]})
                 }
                 else {
                     alert(res.data.error)
@@ -37,12 +29,13 @@ export default class LatestEvent extends Component {
                 console.log(err)
             })
     }
+    componentDidMount(){
+        this.getData()
+    }
     render() {
         return (
             <View style={styles.cont}>
-                {this.state.isLoading ?<Loading />
-                    : <ListEvents data={this.data.data} page="Latest" />
-                }
+            <ListEvents data={this.state.data} page="Latest" />
             </View>
         )
     }

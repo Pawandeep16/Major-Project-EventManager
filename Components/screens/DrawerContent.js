@@ -3,13 +3,9 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import {
   Avatar,
-  Title,
   Caption,
-  Paragraph,
   Drawer,
   Text,
-  TouchableRipple,
-  Switch,
 } from 'react-native-paper';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -154,7 +150,10 @@ function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="chat" color={Colors.drawertext} size={size} />
               )}
-              label="Messenger"></DrawerItem>
+              label="Messenger"
+              onPress={() => {
+                  props.navigation.navigate('Message')
+                }}></DrawerItem>
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>

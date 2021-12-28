@@ -3,28 +3,35 @@ import React, { Component } from 'react'
 import { Linking } from 'react-native'
 import { Text, StyleSheet, View, ScrollView, SectionList, TouchableOpacity } from 'react-native'
 import { Card } from 'react-native-elements'
-import { Button } from 'react-native-paper'
+import { ActivityIndicator, Button } from 'react-native-paper'
 import { Colors } from '../Helper/Colors'
-import LatestEvent from './LatestEvent'
+import Loading from '../Helper/Loading'
 export default class ListEvents extends Component {
     data = []
     page = ''
-    props=null
+    props = null
     constructor(props) {
         super(props)
-        this.data = props.data
-        this.props=props
+        this.props = props
         this.page = props.page
+        this.state = {
+            data: [],
+            loading:true
+        }
+        this.interval
     }
-    delete = async (flag) => 
-    {
+    interval = setInterval(() => {
+        let temp = this.props.data
+        this.setState({ data: temp ,loading:false})
+    }, 1000);
+
+    delete = async (flag) => {
         let data = {
             id: flag
         }
-        axios.post('/event/deleteEvent',data)
+        axios.post('/event/deleteEvent', data)
             .then((res) => {
-                if (res.data.status) 
-                {
+                if (res.data.status) {
                     alert('Event deleted successfully')
                 }
             })
@@ -35,58 +42,68 @@ export default class ListEvents extends Component {
             <View>
                 {this.page == 'Latest' ?
                     <View style={styles.allCard}>
+                    {this.state.loading ? 
+                    <ActivityIndicator animating={true} color={Colors.btn} size={70}/> :
                         <ScrollView >
-                            <Card key={this.data.id} containerStyle={styles.cardAll}>
-                                <View >
-                                    <Card.Title h4 style={{
-                                        color: Colors.btn, textTransform: 'uppercase',
-                                        textDecorationLine: 'underline',
-                                    }}>{this.data.title}
-                                    </Card.Title>
-                                    <Button icon="delete" mode="contained" onPress={() => this.delete(this.data.id)}>
-                                    </Button>
-                                </View>
-                                {/* <Card.Divider /> */}
-                                <View style={styles.data}>
-                                    <Text style={styles.head}>Organized_By:-</Text>
-                                    <Text style={styles.text}>{this.data.organized_by}</Text>
-                                </View>
-                                <View style={styles.data}>
-                                    <Text style={{
-                                        fontSize: 15,
-                                        fontWeight: "500", textAlign: 'justify'
-                                    }}>{this.data.description}</Text>
-                                </View>
+                            {this.state.data.length != 0 ?
+                                this.state.data.map(item =>
+                                    <Card key={item.id} containerStyle={styles.cardAll}>
+                                        <View >
+                                            <Card.Title h4 style={{
+                                                color: Colors.btn, textTransform: 'uppercase',
+                                                textDecorationLine: 'underline',
+                                            }}>{item.title}
+                                            </Card.Title>
+                                            <Button icon="delete" mode="contained" onPress={() => this.delete(item.id)}>
+                                            </Button>
+                                        </View>
+                                        {/* <Card.Divider /> */}
+                                        <View style={styles.data}>
+                                            <Text style={styles.head}>Organized_By:-</Text>
+                                            <Text style={styles.text}>{item.organized_by}</Text>
+                                        </View>
+                                        <View style={styles.data}>
+                                            <Text style={{
+                                                fontSize: 15,
+                                                fontWeight: "500", textAlign: 'justify'
+                                            }}>{item.description}</Text>
+                                        </View>
 
-                                <View style={styles.data}>
-                                    <Text style={styles.head}>Venue:-</Text>
-                                    <Text style={styles.text}>{this.data.venue}</Text>
-                                </View>
-                                <View style={styles.data}>
-                                    <Text style={styles.head}>Date:-</Text>
-                                    <Text style={styles.text}>{this.data.date}</Text>
-                                </View>
-                                <View style={styles.data}>
-                                    <Text style={styles.head}>Time:-</Text>
-                                    <Text style={styles.text}>{this.data.time}</Text>
-                                </View>
-                                <View style={styles.data}>
-                                    <Text style={styles.head}>Contact:-</Text>
-                                    <Text style={styles.text}>{this.data.contact}</Text>
-                                </View>
-                                {/* <Card.Divider /> */}
-                                <View style={{ alignItems: 'center' }}>
-                                    <TouchableOpacity style={styles.btn} onPress={() => Linking.openURL(this.data.registerLink)}>
-                                        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Register Here</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </Card>
+                                        <View style={styles.data}>
+                                            <Text style={styles.head}>Venue:-</Text>
+                                            <Text style={styles.text}>{item.venue}</Text>
+                                        </View>
+                                        <View style={styles.data}>
+                                            <Text style={styles.head}>Date:-</Text>
+                                            <Text style={styles.text}>{item.date}</Text>
+                                        </View>
+                                        <View style={styles.data}>
+                                            <Text style={styles.head}>Time:-</Text>
+                                            <Text style={styles.text}>{item.time}</Text>
+                                        </View>
+                                        <View style={styles.data}>
+                                            <Text style={styles.head}>Contact:-</Text>
+                                            <Text style={styles.text}>{item.contact}</Text>
+                                        </View>
+                                        {/* <Card.Divider /> */}
+                                        <View style={{ alignItems: 'center' }}>
+                                            <TouchableOpacity style={styles.btn} onPress={() => Linking.openURL(item.registerLink)}>
+                                                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Register Here</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </Card>
+                                ) : <Loading/>
+                            }
+
                         </ScrollView>
+                    }
                     </View>
                     :
                     <View style={styles.allCard}>
+                    {this.state.loading ? 
+                    <ActivityIndicator animating={true} color={Colors.btn} size={70}/> :
                         <ScrollView >
-                            {this.data.map(res =>
+                            {this.state.data.map(res =>
                                 <Card key={res.id} containerStyle={styles.cardAll}>
                                     <Card.Title h4 style={{ color: Colors.btn, textTransform: 'uppercase', textDecorationLine: 'underline' }}>{res.title}</Card.Title>
                                     <Button icon="delete" mode="contained" onPress={() => this.delete(res.id)}>
@@ -129,6 +146,7 @@ export default class ListEvents extends Component {
                             )
                             }
                         </ScrollView>
+                    }
                     </View>
                 }
 

@@ -7,9 +7,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
-import { Input, Button, ThemeConsumer } from 'react-native-elements';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import postRequest from '../Axios/postRequest'
 import axios from '../Axios/axios'
 import { Colors } from '../../Helper/Colors';
 import { TextInput } from 'react-native-paper';
@@ -37,7 +35,6 @@ export default class LoginScreen extends Component {
     await EncryptedStorage.setItem(
       "user", JSON.stringify(data)
     );
-    // console.log({ data })
   }
 
   showLoading = (flag) => {

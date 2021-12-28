@@ -32,7 +32,8 @@ export default class Events extends Component {
         </View>
 
         <View style={styles.bottomView}>
-          <Text style={styles.top}>{this.state.active==0?'Latest Events': 'All Events'}</Text>
+          <Text style={styles.top}>
+          {this.state.active==0?'Latest Events': 'All Events'}</Text>
           {this.state.active===0?
           <LatestEvent />
           :
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flex: 5,
+    width:'100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
